@@ -25,7 +25,7 @@ public class AnimeService {
   }
 
   public Anime save(Anime anime) {
-    anime.setId(ThreadLocalRandom.current().nextLong(3, 1000000));
+    anime.setId((long) (animes.size() + 1));
     animes.add(anime);
     return anime;
   }
