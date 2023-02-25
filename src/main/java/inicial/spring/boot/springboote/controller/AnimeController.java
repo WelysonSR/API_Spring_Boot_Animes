@@ -1,6 +1,8 @@
 package inicial.spring.boot.springboote.controller;
 
 import inicial.spring.boot.springboote.domain.Anime;
+import inicial.spring.boot.springboote.requests.AnimePostRequestBody;
+import inicial.spring.boot.springboote.requests.AnimePutRequestBody;
 import inicial.spring.boot.springboote.servece.AnimeService;
 import inicial.spring.boot.springboote.util.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +30,12 @@ public class AnimeController {
 
   @GetMapping(path = "/{id}")
   public ResponseEntity<Anime> findById(@PathVariable long id) {
-    return ResponseEntity.ok(animeService.findById(id));
+    return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestsException(id));
   }
 
   @PostMapping
-  public ResponseEntity<Anime> save(@RequestBody Anime anime) {
-    return new ResponseEntity(animeService.save(anime), HttpStatus.CREATED);
+  public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody animePostRequestBody) {
+    return new ResponseEntity(animeService.save(animePostRequestBody), HttpStatus.CREATED);
   }
 
   @DeleteMapping(path = "/{id}")
@@ -43,8 +45,8 @@ public class AnimeController {
   }
 
   @PutMapping
-  public ResponseEntity<Anime> replace(@RequestBody Anime anime) {
-    animeService.replace(anime);
+  public ResponseEntity<Anime> replace(@RequestBody AnimePutRequestBody animePutRequestBody) {
+    animeService.replace(animePutRequestBody);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
