@@ -1,6 +1,7 @@
 package inicial.spring.boot.springboote.servece;
 
 import inicial.spring.boot.springboote.domain.Anime;
+import inicial.spring.boot.springboote.exception.BadRequestException;
 import inicial.spring.boot.springboote.mapper.AnimeMapper;
 import inicial.spring.boot.springboote.repository.AnimeRepository;
 import inicial.spring.boot.springboote.requests.AnimePostRequestBody;
@@ -27,7 +28,7 @@ public class AnimeService {
 
   public Anime findByIdOrThrowBadRequestsException(long id) {
     return animeRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not Found"));
+            .orElseThrow(() -> new BadRequestException("Anime not Found"));
   }
 
   public Anime save(AnimePostRequestBody animePostRequestBody) {
