@@ -1,6 +1,7 @@
 package inicial.spring.boot.springboote.servece;
 
 import inicial.spring.boot.springboote.domain.Anime;
+import inicial.spring.boot.springboote.mapper.AnimeMapper;
 import inicial.spring.boot.springboote.repository.AnimeRepository;
 import inicial.spring.boot.springboote.requests.AnimePostRequestBody;
 import inicial.spring.boot.springboote.requests.AnimePutRequestBody;
@@ -26,7 +27,7 @@ public class AnimeService {
   }
 
   public Anime save(AnimePostRequestBody animePostRequestBody) {
-    return animeRepository.save(Anime.builder().name(animePostRequestBody.getName()).build());
+    return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostRequestBody));
   }
 
   public void delete(long id) {
@@ -35,10 +36,8 @@ public class AnimeService {
 
   public void replace(AnimePutRequestBody animePutRequestBody) {
     Anime saveAnime = findByIdOrThrowBadRequestsException(animePutRequestBody.getId());
-    Anime anime = Anime.builder()
-            .id(saveAnime.getId())
-            .name(animePutRequestBody.getName())
-            .build();
+    Anime anime = AnimeMapper.INSTANCE.toAnime(animePutRequestBody);
+    anime.setId(saveAnime.getId());
     animeRepository.save(anime);
   }
 }
